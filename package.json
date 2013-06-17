@@ -1,0 +1,8 @@
+{
+  "name": "getbemclasses",
+  "description": "Generates css file structure according to classes used in HTML. Relies on BEM naming for classes.",
+  "version": "0.0.5",
+  "dependencies": {
+    "cheerio": "~0.12.0"
+  }
+}
