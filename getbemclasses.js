@@ -21,8 +21,8 @@ var block = $('.' + blockClass).eq(0);
 
 // Catch zero length
 if (!block.length) {
-	console.log('No such block');
-	return;
+	console.error('No such block');
+	process.exit(1);
 }
 
 var selectors = {
