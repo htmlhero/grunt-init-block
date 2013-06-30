@@ -5,45 +5,59 @@
  * Created by Andrew Motoshin
  * http://htmlhero.ru
  *
- * Version: 0.0.6
+ * Version: 0.0.7
  */
 
 var fs = require('fs');
 var cheerio = require('cheerio');
 
-var file = process.argv[2];
-var blockClass = process.argv[3];
+var htmlFile = process.argv[2];
 
 var options = {
-	indentSize: 1,
-	indentChar: '\t',
+	exportPrefix: 'test/',
+	exportAttr: 'data-export-to',
 	element: '__',
 	modifier: '_',
+	indentSize: 1,
+	indentChar: '\t',
 	shortModifier: true,
 	preprocessor: false
 };
 
-var html = fs.readFileSync(file, 'utf-8');
-
+// Read file and get DOM
+var html = fs.readFileSync(htmlFile, 'utf-8');
 var $ = cheerio.load(html);
-var block = $('.' + blockClass).eq(0);
 
-// Catch zero length
-if (!block.length) {
-	console.error('No such block');
-	process.exit(1);
-}
+// Get all nodes with export attribute
+$('[' + options.exportAttr + ']').each(function () {
 
-var selectors = {
-	block: '.' + blockClass,
-	elements: getElements($, block, blockClass),
-	modifiers: getModifiers(block, blockClass)
-};
+	var block = $(this);
 
-selectors = selectorsToString(selectors);
+	getClassList(block).forEach(function (clss) {
 
-// Output
-console.log(selectors);
+		// Filter elements and modifiers
+		if (clss.indexOf(options.element) !== -1 || clss.indexOf(options.modifier) !== -1) {
+			return;
+		}
+
+		var css = cssToString({
+			block: '.' + clss,
+			elements: getElements($, block, clss),
+			modifiers: getModifiers(block, clss)
+		});
+
+		var cssFile = options.exportPrefix + block.attr(options.exportAttr);
+
+		// If the file exists, append to it
+		if (fs.existsSync(cssFile)) {
+			css = fs.readFileSync(cssFile, 'utf-8') + css;
+		}
+
+		fs.writeFileSync(cssFile, css);
+
+	});
+
+});
 
 function getClassList (node) {
 	var className = node.attr('class');
@@ -56,15 +70,14 @@ function getElements ($, block, blockClass) {
 	var elemClass = blockClass + options.element;
 	var elemsList = block.find('[class*="' + elemClass + '"]');
 
-	var elemClassList;
 	var elems = [];
 
 	elemsList.each(function () {
 
+		var elem = $(this);
 		var prevClass;
 
-		elemClassList = getClassList($(this));
-		elemClassList.forEach(function (clss) {
+		getClassList(elem).forEach(function (clss) {
 
 			if (clss.indexOf(elemClass) === 0) {
 
@@ -113,7 +126,7 @@ function getModifiers (block, blockClass) {
 
 }
 
-function selectorsToString (input) {
+function cssToString (input) {
 
 	var output = '';
 
