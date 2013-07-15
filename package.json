@@ -1,8 +1,27 @@
 {
-  "name": "getbemclasses",
+  "name": "grunt-init-block",
   "description": "Generates css file structure according to classes used in HTML. Relies on BEM naming for classes.",
-  "version": "0.0.5",
+  "version": "0.1.0",
+  "homepage": "https://github.com/htmlhero/grunt-init-block",
+  "author": {
+    "name": "Andrew Motoshin",
+    "url": "http://htmlhero.ru"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/htmlhero/grunt-init-block.git"
+  },
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
   "dependencies": {
     "cheerio": "~0.12.0"
-  }
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
 }
