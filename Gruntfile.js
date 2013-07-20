@@ -4,8 +4,6 @@
  *
  * Created by Andrew Motoshin
  * http://htmlhero.ru
- *
- * Version: 0.1.0
  */
 
 'use strict';
@@ -15,10 +13,10 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 
 		initBlock: {
-			options: {
-				initDir: 'test/'
-			},
-			all: ['test/*.html']
+			all: {
+				src: ['test/*.html'],
+				dest: 'test/'
+			}
 		}
 
 	});

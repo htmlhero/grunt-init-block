@@ -4,8 +4,6 @@
  *
  * Created by Andrew Motoshin
  * http://htmlhero.ru
- *
- * Version: 0.1.0
  */
 
 'use strict';
@@ -13,22 +11,22 @@
 module.exports = function (grunt) {
 
 	var fs = require('fs');
+	var path = require('path');
 	var cheerio = require('cheerio');
 
 	grunt.registerMultiTask('initBlock', 'Creates css from bem-html', function () {
 
 		var options = this.options({
-			initDir: '',
-			initAttr: 'data-init-in',
+			attr: 'init-in',
 			element: '__',
 			modifier: '_',
-			indentSize: 1,
-			indentChar: '\t',
 			shortModifier: true,
-			preprocessor: false
+			preprocessor: false,
+			indentSize: 1,
+			indentChar: '\t'
 		});
 
-		options.initDir = process.cwd() + '/' + options.initDir;
+		var dest = this.data.dest;
 
 		this.filesSrc.forEach(function (htmlFile) {
 
@@ -37,7 +35,7 @@ module.exports = function (grunt) {
 			var $ = cheerio.load(html);
 
 			// Get all nodes with init attribute
-			$('[' + options.initAttr + ']').each(function () {
+			$('[' + options.attr + ']').each(function () {
 
 				var block = $(this);
 
@@ -54,7 +52,7 @@ module.exports = function (grunt) {
 						modifiers: getModifiers(block, clss)
 					});
 
-					var cssFile = options.initDir + block.attr(options.initAttr);
+					var cssFile = path.join(dest, block.attr(options.attr));
 
 					// If the file exists, append to it
 					if (fs.existsSync(cssFile)) {
@@ -62,6 +60,8 @@ module.exports = function (grunt) {
 					}
 
 					fs.writeFileSync(cssFile, css);
+
+					grunt.log.ok('Initialize .' + clss + ' in ' + cssFile);
 
 				});
 
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
 
 		function cssToString (input) {
 
-			var output = '';
+			var output = '\n';
 
 			var indentRepeat = function (size) {
 				var tmp = '';
