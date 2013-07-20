@@ -71,17 +71,11 @@ Default value: `false`
 
 Use stylus style for output without braces.
 
-#### options.indentChar
+#### options.indent
 Type: `String`
 Default value: `'\t'`
 
 Output line indent style. Use spaces or tabs.
-
-#### options.indentSize
-Type: `Number`
-Default value: `1`
-
-Output line indent style. How much should be char repeated.
 
 ### Usage Example
 
