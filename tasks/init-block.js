@@ -22,8 +22,7 @@ module.exports = function (grunt) {
 			modifier: '_',
 			shortModifier: true,
 			preprocessor: false,
-			indentSize: 1,
-			indentChar: '\t'
+			indent: '\t'
 		});
 
 		var dest = this.data.dest;
@@ -140,10 +139,10 @@ module.exports = function (grunt) {
 
 			var output = '\n';
 
-			var indentRepeat = function (size) {
+			var indentRepeat = function (repeat) {
 				var tmp = '';
-				for (var i = 0; i < size; i++) {
-					tmp += options.indentChar;
+				for (var i = 0; i < repeat; i++) {
+					tmp += options.indent;
 				}
 				return tmp;
 			};
@@ -153,13 +152,13 @@ module.exports = function (grunt) {
 
 			var formatRule = function (selector, level) {
 				var tmp = '';
-				tmp += indentRepeat(options.indentSize * level);
+				tmp += indentRepeat(level);
 				tmp += selector;
 				tmp += openBracket;
 				tmp += '\n';
-				tmp += indentRepeat((options.indentSize + 1) * level);
+				tmp += indentRepeat(level + 1);
 				tmp += '\n';
-				tmp += indentRepeat(options.indentSize * level);
+				tmp += indentRepeat(level);
 				tmp += closeBracket;
 				tmp += '\n';
 				return tmp;
