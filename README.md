@@ -39,10 +39,11 @@ grunt.initConfig({
 
 #### options.attr
 Type: `String`
-Default value: `'init-in'`
+Default value: `'init-block'`
 
 Attribute that contains the name of the target file.
-Example: `<div class="block" init-in="blocks.css">`
+Example: `<div class="block" init-block="blocks.css">`
+If there is no filename, the text will be copied to the clipboard.
 
 #### options.element
 Type: `String`

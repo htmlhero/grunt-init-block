@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 	var fs = require('fs');
 	var path = require('path');
 	var cheerio = require('cheerio');
-	var copy = require("copy-paste").copy;
+	var copy = require('copy-paste').copy;
 
 	grunt.registerMultiTask('initBlock', 'Creates css from bem-html', function () {
 
