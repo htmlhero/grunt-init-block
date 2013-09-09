@@ -60,7 +60,7 @@ module.exports = function (grunt) {
 
 					} else {
 
-						clipBoard += cssToString($, clss, block);
+						clipBoard += css;
 						grunt.log.ok('Block .' + clss + ' copied to clipboad');
 
 					}
