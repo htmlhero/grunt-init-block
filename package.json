@@ -16,12 +16,15 @@
     "node": ">= 0.8.0"
   },
   "dependencies": {
-    "cheerio": "~0.12.0"
+    "cheerio": "~0.12.0",
+    "copy-paste": "0.0.9"
   },
   "devDependencies": {
     "grunt": "~0.4.1"
   },
   "keywords": [
-    "gruntplugin", "bem", "markup"
+    "gruntplugin",
+    "bem",
+    "markup"
   ]
 }

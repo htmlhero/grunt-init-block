@@ -13,11 +13,12 @@ module.exports = function (grunt) {
 	var fs = require('fs');
 	var path = require('path');
 	var cheerio = require('cheerio');
+	var copy = require("copy-paste").copy;
 
 	grunt.registerMultiTask('initBlock', 'Creates css from bem-html', function () {
 
 		var options = this.options({
-			attr: 'init-in',
+			attr: 'init-block',
 			element: '__',
 			modifier: '_',
 			shortModifier: true,
@@ -32,45 +33,56 @@ module.exports = function (grunt) {
 			// Read file and get DOM
 			var html = fs.readFileSync(htmlFile, 'utf-8');
 			var $ = cheerio.load(html);
+			var clipBoard = '';
 
 			// Get all nodes with init attribute
 			$('[' + options.attr + ']').each(function () {
 
 				var block = $(this);
+				var blockClassList = getClassList(block).filter(filterBlock);
 
-				getClassList(block).forEach(function (clss) {
+				blockClassList.forEach(function (clss) {
 
-					// Filter elements and modifiers
-					if (clss.indexOf(options.element) !== -1 || clss.indexOf(options.modifier) !== -1) {
-						return;
+					var css = cssToString($, clss, block);
+					var cssFile = block.attr(options.attr);
+
+					if (cssFile) {
+
+						cssFile = path.join(dest, cssFile);
+
+						// If the file exists, append to it
+						if (fs.existsSync(cssFile)) {
+							css = fs.readFileSync(cssFile, 'utf-8') + css;
+						}
+
+						fs.writeFileSync(cssFile, css);
+						grunt.log.ok('Block .' + clss + ' initialized in ' + cssFile);
+
+					} else {
+
+						clipBoard += cssToString($, clss, block);
+						grunt.log.ok('Block .' + clss + ' copied to clipboad');
+
 					}
-
-					var css = cssToString({
-						block: '.' + clss,
-						elements: getElements($, block, clss),
-						modifiers: getModifiers(block, clss)
-					});
-
-					var cssFile = path.join(dest, block.attr(options.attr));
-
-					// If the file exists, append to it
-					if (fs.existsSync(cssFile)) {
-						css = fs.readFileSync(cssFile, 'utf-8') + css;
-					}
-
-					fs.writeFileSync(cssFile, css);
-
-					grunt.log.ok('Initialize .' + clss + ' in ' + cssFile);
 
 				});
 
 			});
+
+			if (clipBoard) {
+				copy(clipBoard);
+			}
 
 		});
 
 		function getClassList (node) {
 			var className = node.attr('class');
 			return className.replace(/\s+/g, ',').split(',');
+		}
+
+		function filterBlock (clss) {
+			// Filter elements and modifiers
+			return (clss.indexOf(options.element) === -1 && clss.indexOf(options.modifier) === -1);
 		}
 
 		function getElements ($, block, blockClass) {
@@ -135,7 +147,13 @@ module.exports = function (grunt) {
 
 		}
 
-		function cssToString (input) {
+		function cssToString ($, clss, block) {
+
+			var input = {
+				block: '.' + clss,
+				elements: getElements($, block, clss),
+				modifiers: getModifiers(block, clss)
+			};
 
 			var output = '\n';
 
