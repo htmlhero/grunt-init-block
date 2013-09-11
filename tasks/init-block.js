@@ -56,12 +56,12 @@ module.exports = function (grunt) {
 						}
 
 						fs.writeFileSync(cssFile, css);
-						grunt.log.ok('Block .' + clss + ' initialized in ' + cssFile);
+						console.log('Block ' + ('.' + clss).cyan + ' initialized in ' + cssFile);
 
 					} else {
 
 						clipBoard += css;
-						grunt.log.ok('Block .' + clss + ' copied to clipboad');
+						console.log('Block ' + ('.' + clss).cyan + ' copied to clipboad');
 
 					}
 
