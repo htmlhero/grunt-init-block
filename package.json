@@ -1,7 +1,7 @@
 {
   "name": "grunt-init-block",
   "description": "Generates css file structure according to classes used in HTML. Relies on BEM naming for classes.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/htmlhero/grunt-init-block",
   "author": {
     "name": "Andrew Motoshin",
@@ -15,10 +15,15 @@
   "engines": {
     "node": ">= 0.8.0"
   },
+  "bin": {
+    "init-block": "./bin/init-block"
+  },
   "dependencies": {
     "cheerio": "~0.12.0",
     "copy-paste": "0.0.9",
-    "colors": "~0.6.2"
+    "colors": "~0.6.2",
+    "lodash": "~2.0.0",
+    "optimist": "~0.6.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1"

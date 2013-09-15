@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+var argv = require('optimist').argv;
+var initBlock = require('../lib/init-block');
+
+var options = {
+	attr: argv.attr,
+	element: argv.element,
+	modifier: argv.modifier,
+	longModifier: argv.l,
+	preprocessor: argv.p,
+	indent: argv.indent === 't' ? '\t' : argv.indent
+};
+
+initBlock([argv.file], argv.dest, options)
