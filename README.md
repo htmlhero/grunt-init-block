@@ -97,7 +97,7 @@ grunt.initConfig({
 write html:
 
 ```html
-<div class="post _modifier" init-in="blocks.css">
+<div class="post _modifier" init-block="blocks.css">
 	<h2 class="post__title"></h2>
 	<div class="post__content"></div>
 	<div class="post__comments"></div>
