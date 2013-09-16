@@ -57,14 +57,14 @@ Type: `String`
 Default value: `'_'`
 
 Modifier class name separator in your HTML.
-Example: `<div class="block block_modifier">`
-
-#### options.shortModifier
-Type: `Boolean`
-Default value: `true`
-
-Use a short modifier.
 Example: `<div class="block _modifier">`
+
+#### options.longModifier
+Type: `Boolean`
+Default value: `false`
+
+Use a long modifier.
+Example: `<div class="block block_modifier">`
 
 #### options.preprocessor
 Type: `Boolean`
